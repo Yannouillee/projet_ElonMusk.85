@@ -129,8 +129,13 @@ def receive_ack(msg: Msg):
     
 
 def send_msg(msgId:int, payload:List[int], userId:int, dest:int):
+    Message = (1)
+    
+    while time < Timeout :
+        print :"xcac"
+        
     '''
-    Envoie un message.
+    
     1) Crée un objet Message à partir des paramètres
     En boucle jusqu'à un timeout ou ack: 
         2) Conversion objet Message en trame et envoi 
