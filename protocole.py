@@ -1,5 +1,5 @@
 '''
-OC Robotique 2025
+OC Robotique 2025 lol
 Template pour librairie Protocole Réseau pour Micro:bit
 
 Auteur·ice : Vincent Namy, Yannaël Métral, Alex, Nojan
