@@ -84,7 +84,11 @@ def ack_msg(msg : Message):
             Parameters:
                     msg(Message): Objet Message contenant tous les paramètres du message à acker
     '''
-    pass # à compléter
+    global seqNum
+    message = [dest, userId, msgId]
+    
+    
+    radio.send_bytes(int_to_bytes(message))
 
 
 def receive_ack(msg: Msg):
@@ -142,11 +146,11 @@ def receive_msg(userId:int):
 
 
 if __name__ == '__main__':
-    userId = 0
+    userId = 0 #il faut changer le numero de user pour chaque utilisateur 
 
     while True:
         # Messages à envoyer
-        destId = 2
+        destId = 3
         if button_a.was_pressed():
             send_msg(1,[60],userId, destId)
             
