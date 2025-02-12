@@ -170,7 +170,6 @@ def receive_msg(userId:int):
 
 
 if __name__ == '__main__':
-    
     userId = 0
 
     while True:
