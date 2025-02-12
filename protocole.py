@@ -75,33 +75,6 @@ def int_to_bytes(intPayload:List[int]):
 
 
 #### Fonctions réseaux ####
-def msg_to_trame(rawMsg : Message):
-    '''
-    Crée une trame à partir des paramètres d'un objet Message afin de préparer un envoi.
-    1) Création d'une liste de int dans l'ordre du protocole
-    2) Conversion en bytes
-            Parameters:
-                    rawMsg(Message): Objet Message contenant tous les paramètres du message à envoyer
-            Returns:
-                    trame(bytes): payload convertie au format bytes
-    '''
-    pass # à compléter
-
-
-def trame_to_msg(trame : bytes, userId :int):
-    '''
-    Crée un objet Message à partir d'une trame brute recue.
-    1) Conversion de bytes en liste de int
-    2) Découpage de la liste de int dans l'ordre du protocole pour remplir l'objet Message
-    3) Check du CRC et du destinataire
-            Parameters:
-                    trame(bytes): payload au format bytes
-            Returns:
-                    msgObj(Message): Objet Message contenant tous les paramètres du message recu si crc et destinataire ok, sinon None
-    '''
-    pass # à compléter
-    
-    
 def ack_msg(msg : Message):
     '''
     Envoie un ack du message recu.
@@ -130,8 +103,6 @@ def receive_ack(msg: Msg):
 
 def send_msg(msgId:int, payload:List[int], userId:int, dest:int):
     '''
-    
-    1) Crée un objet Message à partir des paramètres
     En boucle jusqu'à un timeout ou ack: 
         2) Conversion objet Message en trame et envoi 
         3) Attend et check le ack
@@ -152,9 +123,6 @@ def send_msg(msgId:int, payload:List[int], userId:int, dest:int):
     
 def receive_msg(userId:int):
     '''
-    Attend un message.
-    1) Récupère les messages recus
-    2) Conversion trame en objet Message
     3) Check si ce n'est pas un ack
             Parameters:
                     userId(int): Id de Utilisateur·ice attendant un message
@@ -165,8 +133,12 @@ def receive_msg(userId:int):
     if Ntrame:
         chaine = bytes_to_int(Ntrame)
         message_contenu = Message(None, chaine[1], chaine[0], chaine[2], chaine[3], None)
-        print("marche")
-        return message_contenu
+        if chaine[1] == userId:
+            print("marche")
+            return message_contenu
+        else:
+            print("le message ne m'est pas destiné")
+        
 
 
 if __name__ == '__main__':
@@ -174,7 +146,7 @@ if __name__ == '__main__':
 
     while True:
         # Messages à envoyer
-        destId = 1
+        destId = 2
         if button_a.was_pressed():
             send_msg(1,[60],userId, destId)
             
