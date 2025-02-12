@@ -18,7 +18,7 @@ Timeout = 300
 ackMsgId = 255
 
 #### Start radio module ####
-radio.config(channel=7, address=50)
+radio.config(channel=7, address=53430)
 radio.on()
 
 
@@ -46,7 +46,7 @@ class Message:
             Returns:
                     msgStr(str): string contenant les détails du message
     '''
-      return str(self.exped)+ " -> "+ str(self.dest)+ "n[" + str(self.seqNum)+ "] "+ " : type "+ str(self.msgId)+" : " +str(self.payload)+ " (crc="+ str(self.crc)+")"
+    return str(self.exped)+ " -> "+ str(self.dest)+ "n[" + str(self.seqNum)+ "] "+ " : type "+ str(self.msgId)+" : " +str(self.payload)+ " (crc="+ str(self.crc)+")"
 
 #### Toolbox ####
 def bytes_to_int(bytesPayload:bytes):
@@ -146,9 +146,9 @@ def send_msg(msgId:int, payload:List[int], userId:int, dest:int):
     '''
     global seqNum
     message = (dest, userId, msgId, payload)
-    trame = msg_to_trame(message)
     
-    radio.send(trame)
+    
+    radio.send_bytes(int_to_bytes(message))
     
 def receive_msg(userId:int):
     '''
@@ -161,7 +161,12 @@ def receive_msg(userId:int):
             Returns:
                     msgRecu(Message): Objet Message contenant tous les paramètres du message
     '''
-    radio.receive(trame)
+    Ntrame = radio.receive_bytes()
+    if Ntrame:
+        chaine = bytes_to_int(Ntrame)
+        message_contenu = Message(None, 0, 1, chaine[0], chaine[1], None)
+        
+        return message_contenu
 
 
 if __name__ == '__main__':
