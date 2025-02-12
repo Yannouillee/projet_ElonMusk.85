@@ -129,11 +129,6 @@ def receive_ack(msg: Msg):
     
 
 def send_msg(msgId:int, payload:List[int], userId:int, dest:int):
-    Message = (1)
-    
-    while time < Timeout :
-        print :"xcac"
-        
     '''
     
     1) Crée un objet Message à partir des paramètres
@@ -150,8 +145,11 @@ def send_msg(msgId:int, payload:List[int], userId:int, dest:int):
                     acked(bool): True si message acké, sinon False
     '''
     global seqNum
-    pass # à compléter
-
+    message = (dest, userId, msgId, payload)
+    trame = msg_to_trame(message)
+    
+    radio.send(trame)
+    
 def receive_msg(userId:int):
     '''
     Attend un message.
@@ -163,7 +161,7 @@ def receive_msg(userId:int):
             Returns:
                     msgRecu(Message): Objet Message contenant tous les paramètres du message
     '''
-    pass # à compléter
+    radio.receive(trame)
 
 
 if __name__ == '__main__':
