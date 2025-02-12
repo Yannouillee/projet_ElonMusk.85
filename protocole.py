@@ -164,8 +164,8 @@ def receive_msg(userId:int):
     Ntrame = radio.receive_bytes()
     if Ntrame:
         chaine = bytes_to_int(Ntrame)
-        message_contenu = Message(None, 0, 1, chaine[0], chaine[1], None)
-        
+        message_contenu = Message(None, chaine[1], chaine[0], chaine[2], chaine[3], None)
+        print("marche")
         return message_contenu
 
 
