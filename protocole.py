@@ -120,8 +120,12 @@ def send_msg(msgId:int, payload:List[int], userId:int, dest:int):
                     acked(bool): True si message acké, sinon False
     '''
     global seqNum
-    message = [dest, userId, msgId]+ payload
+    message = [dest, userId, seqNum, msgId]+ payload
     
+    if seqNum > 254:
+        seqNum = 0
+    else:
+        seqNum += 1
     
     radio.send_bytes(int_to_bytes(message))
     
@@ -136,13 +140,14 @@ def receive_msg(userId:int):
     Ntrame = radio.receive_bytes()
     if Ntrame:
         chaine = bytes_to_int(Ntrame)
-        message_contenu = Message(None, chaine[1], chaine[0], chaine[2], chaine[3], None)
+        message_contenu = Message(chaine[1], chaine[0], chaine[2], chaine[3], chaine[4])
         if chaine[1] == userId:
             print("marche")
+            send_msg(chaine[0], chaine[1], chaine[2], 255, 0)
             return message_contenu
         else:
             print("le message ne m'est pas destiné")
-        
+    
 
 
 if __name__ == '__main__':
@@ -152,7 +157,7 @@ if __name__ == '__main__':
         # Messages à envoyer
         destId = 3
         if button_a.was_pressed():
-            send_msg(1,[60],userId, destId)
+            send_msg(userId, destId1,[60],1)
             
 
                 
