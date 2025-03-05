@@ -4,7 +4,7 @@ Template pour librairie Protocole Réseau pour Micro:bit
 
 Auteur·ice : Vincent Namy, Yannaël Métral, Alex, Nojan
 Version : 1.0
-Date : 29.01.25
+Date : 29.03.25
 '''
 
 #### Libraries ####
