@@ -128,7 +128,12 @@ def send_msg(msgId:int, payload:List[int], userId:int, dest:int):
         seqNum += 1
     
     radio.send_bytes(int_to_bytes(message))
-    LeMess = receive_msg(ack)
+    ack = receive_msg(userId)
+    if ack:
+        if ack[3] == 255:
+            print("LESGOOOO")
+        
+        
         
 def receive_msg(userId:int):
     '''
@@ -159,7 +164,7 @@ if __name__ == '__main__':
         # Messages à envoyer
         destId = 3
         if button_a.was_pressed():
-            send_msg(12, 13,[60],1)
+            send_msg(1, [60], 12, 13)
             
 
                 
