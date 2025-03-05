@@ -128,7 +128,8 @@ def send_msg(msgId:int, payload:List[int], userId:int, dest:int):
         seqNum += 1
     
     radio.send_bytes(int_to_bytes(message))
-    
+    LeMess = receive_msg(ack)
+        
 def receive_msg(userId:int):
     '''
     3) Check si ce n'est pas un ack
@@ -143,7 +144,8 @@ def receive_msg(userId:int):
         message_contenu = Message(chaine[1], chaine[0], chaine[2], chaine[3], chaine[4])
         if chaine[1] == userId:
             print("marche")
-            send_msg(chaine[0], chaine[1], chaine[2], 255, 0)
+            ack = [13, 12, seqNum, ackMsgId, 0]
+            send_msg(ack)
             return message_contenu
         else:
             print("le message ne m'est pas destiné")
@@ -157,7 +159,7 @@ if __name__ == '__main__':
         # Messages à envoyer
         destId = 3
         if button_a.was_pressed():
-            send_msg(userId, destId1,[60],1)
+            send_msg(12, 13,[60],1)
             
 
                 
